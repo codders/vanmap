@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace VanBaby;
 
-class GPSCoordinate
+class GPSCoordinate implements \JsonSerializable
 {
   private float $latitude;
   private float $longitude;
@@ -63,6 +63,14 @@ class GPSCoordinate
     return $this->altitude;
   }
 
+  public function jsonSerialize(): array {
+    return [
+      "longitude" => $this->getLongitude(),
+      "latitude" => $this->getLatitude(),
+      "altitude" => $this->getAltitude()
+    ];
+  }
+
   public static function parseHexFloatTriple(string $hexString): ?GPSCoordinate
   {
     if (strlen($hexString) !== 24) {
@@ -76,5 +84,13 @@ class GPSCoordinate
       ->setLongitude(self::hex2float($longitude))
       ->setLatitude(self::hex2float($latitude))
       ->setAltitude(self::hex2float($altitude));
+  }
+
+  public static function createFromHash(array $hash): GPSCoordinate
+  {
+    return (new GPSCoordinate())
+      ->setLongitude((float)$hash["longitude"])
+      ->setLatitude((float)$hash["latitude"])
+      ->setAltitude((float)$hash["altitude"]);
   }
 }

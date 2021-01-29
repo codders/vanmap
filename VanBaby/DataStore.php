@@ -23,6 +23,16 @@ class DataStore
     return $result;
   }
 
+  public function getLocationHistory(): array
+  {
+    $result = $this->conn->query("SELECT longitude, latitude, altitude FROM location");
+    $locations = [];
+    while ($obj = $result->fetch_assoc()) {
+      $locations []= GPSCoordinate::createFromHash($obj);
+    }
+    return $locations;
+  }
+
   private static function getConnection(): object
   {
     $conn = new \mysqli($_ENV["DATABASE_HOST"], $_ENV["DATABASE_USER"], $_ENV["DATABASE_PASSWORD"], $_ENV["DATABASE_NAME"]) or die("Connect failed %s\n". $conn -> error);
