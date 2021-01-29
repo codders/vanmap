@@ -1,0 +1,20 @@
+{
+    "name": "codders/van-map",
+    "description": "Map for the van",
+    "type": "project",
+    "require": {
+        "vlucas/phpdotenv": "^5.3"
+    },
+    "autoload": {
+      "psr-4": {
+        "VanBaby\\": "./VanBaby/"
+      }
+    },
+    "license": "AGPL-3.0",
+    "authors": [
+        {
+            "name": "Arthur Taylor",
+            "email": "arthur@codders.de"
+        }
+    ]
+}

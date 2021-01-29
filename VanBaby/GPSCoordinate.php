@@ -3,7 +3,8 @@ declare(strict_types=1);
 
 namespace VanBaby;
 
-class GPSCoordinate {
+class GPSCoordinate
+{
   private float $latitude;
   private float $longitude;
   private float $altitude;
