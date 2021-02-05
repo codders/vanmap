@@ -4,6 +4,6 @@ CREATE TABLE location (
   longitude FLOAT NOT NULL,
   altitude FLOAT NOT NULL,
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY_KEY(`id`),
+  PRIMARY KEY(`id`),
   KEY `created_at` (`created_at`)
 );

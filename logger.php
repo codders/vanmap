@@ -38,13 +38,13 @@ function getData(): ?GPSCoordinate
   return GPSCoordinate::parseHexFloatTriple($datastring);
 }
 
-$store = DataStore::create();
 $time = getTime();
+$line = $time . "|" . $_GET[DATA];
+file_put_contents("script.log", $line . "\n", FILE_APPEND);
+$store = DataStore::create();
 $data = getData();
-$line = $time . "|" . (is_null($data) ? "No Signal" : $data->toString());
 if (!is_null($data)) {
   $store->saveLocation($data);
 }
-$res = file_put_contents("script.log", $line . "\n", FILE_APPEND);
 print($line . "\n");
 ?>
