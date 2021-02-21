@@ -25,7 +25,7 @@ class DataStore
 
   public function getLocationHistory(): array
   {
-    $result = $this->conn->query("SELECT longitude, latitude, altitude FROM location");
+    $result = $this->conn->query("SELECT longitude, latitude, altitude FROM location ORDER BY created_at DESC");
     $locations = [];
     while ($obj = $result->fetch_assoc()) {
       $locations []= GPSCoordinate::createFromHash($obj);

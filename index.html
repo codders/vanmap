@@ -21,6 +21,27 @@
     #mapid {
       height: 400px;
     }
+
+    .first-marker {
+      background-color: #f00;
+      width: 5rem;
+      height: 5rem;
+      position: absolute;
+      border-radius: 5rem 5rem 0;
+      transform: rotate(45deg);
+      border: 1px solid #fff;
+    }
+
+    .rest-marker {
+      background-color: #00f;
+      width: 3rem;
+      height: 3rem;
+      position: absolute;
+      border-radius: 3rem 3rem 0;
+      transform: rotate(45deg);
+      border: 1px solid #fff;
+    }
+
   </style>
 </head>
 <body>
@@ -31,9 +52,23 @@
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(mymap);
+    const firstIcon = L.divIcon({className: 'first-marker'});
+    const restIcon = L.divIcon({className: 'rest-marker'});
     $.ajax('/cgi-bin/history.php').done(function(data) { 
+      var first = true;
       $.each(data, function(i, coordinate) {
-        L.marker([coordinate.latitude, coordinate.longitude]).addTo(mymap);
+        if (coordinate.longitude < -10 || coordinate.longitude > 30 || coordinate.latitude < 20 || coordinate.latitde > 80) {
+          console.log("Skipping", coordinate);
+          return;
+        }
+        if (first) {
+          console.log(`Long: ${coordinate.longitude} Lat: ${coordinate.latitude}`);
+          mymap.setView([coordinate.latitude, coordinate.longitude], 13);
+          L.marker([coordinate.latitude, coordinate.longitude], {icon: firstIcon}).addTo(mymap);
+          first = false;
+        } else if (i < 10) {
+          L.marker([coordinate.latitude, coordinate.longitude], {icon: restIcon}).addTo(mymap);
+        }
       });
       console.log(data);
     });
