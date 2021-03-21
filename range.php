@@ -12,4 +12,4 @@ $dotenv->load();
 $store = DataStore::create();
 
 header('Content-Type: application/json');
-echo json_encode($store->getLocationHistory($_GET["from"], $_GET["to"]));
+echo json_encode($store->getDateRange());
