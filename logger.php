@@ -8,9 +8,20 @@ use VanBaby\GPSCoordinate;
 
 const TIME = "time";
 const DATA = "data";
+const SIGFOX_HEADER = "x-sigfox-key";
 
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
+
+$headers = getallheaders();
+
+if (
+  !array_key_exists(SIGFOX_HEADER, $headers) ||
+  $headers[SIGFOX_HEADER] != $_ENV["SIGFOX_CALLBACK_KEY"]
+) {
+  echo("request was not authenticated");
+  exit(1);
+}
 
 if (!array_key_exists(TIME, $_GET) || !array_key_exists(DATA, $_GET)) {
   echo("Not enough data - supply time and data" . PHP_EOL);
